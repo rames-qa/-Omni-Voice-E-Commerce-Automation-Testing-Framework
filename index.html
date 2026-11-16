@@ -508,31 +508,20 @@
                             </div>
                         </div>
                         <div class="relative flex items-center">
-                        <input type="text" id="fullCommandInput" 
-                            onkeydown="if(event.key==='Enter') processFullInstruction()"
-                            placeholder="Speak or type: 'Search for a 12GB RAM phone on Amazon', 'Find kurti on Meesho'..." 
-                            class="sub-surface w-full rounded-xl pl-3.5 pr-16 py-3.5 text-sm text-[var(--text-main)] placeholder:text-[var(--text-sub)]/60 focus:outline-none focus:border-neonBlue font-mono transition-all">
-                        <div class="absolute right-3 flex items-center">
-                            <button onclick="clearCommandInput()" class="text-xs text-[var(--text-sub)] hover:text-[var(--text-main)] font-mono px-2 py-1.5 rounded cursor-pointer">
-                                Clear
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-end gap-2">
-                    <button onclick="toggleVoiceRecognition()" class="sub-surface flex-1 py-3.5 px-3 min-h-[48px] rounded-xl hover:opacity-90 text-neonBlue font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
-                        <svg class="w-4 h-4 text-neonBlue shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
-                        </svg>
-                        <span id="micBoxBtnLabel">Listen Mic</span>
-                    </button>
+                            <input type="text" id="fullCommandInput" 
+                                onkeydown="if(event.key==='Enter') processFullInstruction()"
+                                placeholder="Speak or type: 'Search for a 12GB RAM phone on Amazon', 'Find kurti on Meesho'..." 
+                                class="sub-surface w-full rounded-xl pl-3.5 pr-16 py-3.5 text-sm text-[var(--text-main)] placeholder:text-[var(--text-sub)]/60 focus:outline-none focus:border-neonBlue font-mono transition-all">
+                            <div class="absolute right-3 flex items-center">
+                                <button onclick="clearCommandInput()" class="text-xs text-[var(--text-sub)] hover:text-[var(--text-main)] font-mono px-2 py-1.5 rounded cursor-pointer">
+                                    Clear
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex items-end gap-2">
-                        <button onclick="toggleVoiceRecognition()" class="flex-1 py-3.5 px-3 min-h-[48px] rounded-xl bg-[var(--bg-sub)] hover:opacity-90 text-neonBlue font-mono font-bold text-xs border border-borderCol transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        <button onclick="toggleVoiceRecognition()" class="sub-surface flex-1 py-3.5 px-3 min-h-[48px] rounded-xl hover:opacity-90 text-neonBlue font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
                             <svg class="w-4 h-4 text-neonBlue shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
                             </svg>
@@ -685,8 +674,7 @@
                         </div>
 
                         <div id="fullTerminal" class="h-60 sm:h-72 overflow-y-auto font-mono text-xs space-y-1.5 p-2.5 bg-[var(--terminal-bg)] rounded-xl border border-borderCol text-[var(--terminal-text)]">
-                            <div class="text-indigo-300" data-level="INFO">[SYSTEM INIT] Omni-App Voice Automation Framework v6.3 (Indigo-Emerald Edition) ready.</div>
-                            <div class="text-indigo-300" data-level="INFO">[NLP PIPELINE] Amazon, Flipkart, Meesho, Zomato, Swiggy active.</div>
+                            <div class="text-indigo-300" data-level="INFO">[SYSTEM INIT] Omni-App Voice Automation Framework v6.3 ready in standby mode. Speak or type your request.</div>
                         </div>
                     </div>
 
@@ -788,7 +776,7 @@
         </div>
     </div>
 
-    <!-- CUSTOM TOAST BANNER (Replaces native alert() per UI standards) -->
+    <!-- CUSTOM TOAST BANNER -->
     <div id="toastBanner" class="fixed top-20 right-4 left-4 sm:left-auto sm:max-w-sm z-50 hidden glass-panel border-neonBlue/60 rounded-xl px-4 py-3 font-mono text-xs shadow-neon-glow">
         <div class="flex items-center justify-between gap-3">
             <span id="toastMessage" class="text-[var(--text-main)] font-semibold">Notification</span>
