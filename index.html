@@ -802,73 +802,73 @@
         let toastTimeout = null;
 
         // STRICT 5-PLATFORM REGISTRY WITH LIVE REAL-TIME SEARCH DEEP-LINKS
-   const PLATFORM_TARGETS = {
-    amazon: {
-        name: "Amazon",
-        category: "E-Commerce",
-        targetType: "Live Product Search",
-        pkg: "com.amazon.mShop.android.shopping",
-        baseUrl: "https://www.amazon.in",
-        mobileDeepLink: "https://www.amazon.in/s?k=",
-        desktopWebLink: "https://www.amazon.in/s?k=",
-        phonetics: ["amazon", "amazone", "amazn", "amzon", "amz", "prime"],
-        badgeColor: "text-neonBlue",
-        samplePrice: "Live Amazon.in Store Pricing",
-        sampleDelivery: "Live Amazon Prime Dispatch"
-    },
-    flipkart: {
-        name: "Flipkart",
-        category: "E-Commerce",
-        targetType: "Live Product Search",
-        pkg: "com.flipkart.android",
-        baseUrl: "https://www.flipkart.com",
-        mobileDeepLink: "https://www.flipkart.com/search?q=",
-        desktopWebLink: "https://www.flipkart.com/search?q=",
-        phonetics: ["flipkart", "flipkartt", "flikart", "flipkat", "flip card", "flip cart", "fk"],
-        badgeColor: "text-neonPurple",
-        samplePrice: "Live Flipkart.com Store Pricing",
-        sampleDelivery: "Live Flipkart Assured Dispatch"
-    },
-    meesho: {
-        name: "Meesho",
-        category: "Wholesale / Shopping",
-        targetType: "Live Product Search",
-        pkg: "com.meesho.supply",
-        baseUrl: "https://www.meesho.com",
-        mobileDeepLink: "https://www.meesho.com/search?q=",
-        desktopWebLink: "https://www.meesho.com/search?q=",
-        phonetics: ["meesho", "measho", "mesho", "misho", "me show", "mi show"],
-        badgeColor: "text-neonAmber",
-        samplePrice: "Live Meesho.com Wholesale Pricing",
-        sampleDelivery: "Live Wholesale Direct Shipping"
-    },
-    zomato: {
-        name: "Zomato",
-        category: "Food Delivery",
-        targetType: "Live Restaurant & Food Search",
-        pkg: "com.application.zomato",
-        baseUrl: "https://www.zomato.com",
-        mobileDeepLink: "https://www.zomato.com/search?q=",
-        desktopWebLink: "https://www.zomato.com/search?q=",
-        phonetics: ["zomato", "zomatto", "zomatoo", "zmato", "tomato"],
-        badgeColor: "text-neonRose",
-        samplePrice: "Live Zomato Menu Pricing",
-        sampleDelivery: "Live Zomato Restaurant Delivery"
-    },
-    swiggy: {
-        name: "Swiggy",
-        category: "Food Delivery",
-        targetType: "Live Food & Instamart Search",
-        pkg: "in.swiggy.android",
-        baseUrl: "https://www.swiggy.com",
-        mobileDeepLink: "https://www.swiggy.com/search?query=",
-        desktopWebLink: "https://www.swiggy.com/search?query=",
-        phonetics: ["swiggy", "swiggi", "swigy", "swiggie", "sweetie"],
-        badgeColor: "text-neonRose",
-        samplePrice: "Live Swiggy Menu Pricing",
-        sampleDelivery: "Live Swiggy One Express Delivery"
-    }
-};
+        const PLATFORM_TARGETS = {
+            amazon: {
+                name: "Amazon",
+                category: "E-Commerce",
+                targetType: "Live Product Search",
+                pkg: "com.amazon.mShop.android.shopping",
+                baseUrl: "https://www.amazon.in",
+                mobileDeepLink: "https://www.amazon.in/s?k=",
+                desktopWebLink: "https://www.amazon.in/s?k=",
+                phonetics: ["amazon", "amazone", "amazn", "amzon", "amz", "prime"],
+                badgeColor: "text-neonBlue",
+                samplePrice: "Live Amazon.in Store Pricing",
+                sampleDelivery: "Live Amazon Prime Dispatch"
+            },
+            flipkart: {
+                name: "Flipkart",
+                category: "E-Commerce",
+                targetType: "Live Product Search",
+                pkg: "com.flipkart.android",
+                baseUrl: "https://www.flipkart.com",
+                mobileDeepLink: "https://www.flipkart.com/search?q=",
+                desktopWebLink: "https://www.flipkart.com/search?q=",
+                phonetics: ["flipkart", "flipkartt", "flikart", "flipkat", "flip card", "flip cart", "fk"],
+                badgeColor: "text-neonPurple",
+                samplePrice: "Live Flipkart.com Store Pricing",
+                sampleDelivery: "Live Flipkart Assured Dispatch"
+            },
+            meesho: {
+                name: "Meesho",
+                category: "Wholesale / Shopping",
+                targetType: "Live Product Search",
+                pkg: "com.meesho.supply",
+                baseUrl: "https://www.meesho.com",
+                mobileDeepLink: "https://www.meesho.com/search?q=",
+                desktopWebLink: "https://www.meesho.com/search?q=",
+                phonetics: ["meesho", "measho", "mesho", "misho", "me show", "mi show"],
+                badgeColor: "text-neonAmber",
+                samplePrice: "Live Meesho.com Wholesale Pricing",
+                sampleDelivery: "Live Wholesale Direct Shipping"
+            },
+            zomato: {
+                name: "Zomato",
+                category: "Food Delivery",
+                targetType: "Live Restaurant & Food Search",
+                pkg: "com.application.zomato",
+                baseUrl: "https://www.zomato.com",
+                mobileDeepLink: "https://www.zomato.com/search?q=",
+                desktopWebLink: "https://www.zomato.com/search?q=",
+                phonetics: ["zomato", "zomatto", "zomatoo", "zmato", "tomato"],
+                badgeColor: "text-neonRose",
+                samplePrice: "Live Zomato Menu Pricing",
+                sampleDelivery: "Live Zomato Restaurant Delivery"
+            },
+            swiggy: {
+                name: "Swiggy",
+                category: "Food Delivery",
+                targetType: "Live Food & Instamart Search",
+                pkg: "in.swiggy.android",
+                baseUrl: "https://www.swiggy.com",
+                mobileDeepLink: "https://www.swiggy.com/search?query=",
+                desktopWebLink: "https://www.swiggy.com/search?query=",
+                phonetics: ["swiggy", "swiggi", "swigy", "swiggie", "sweetie"],
+                badgeColor: "text-neonRose",
+                samplePrice: "Live Swiggy Menu Pricing",
+                sampleDelivery: "Live Swiggy One Express Delivery"
+            }
+        };
 
         const FILLER_VERBS = [
             "search for", "look for", "search", "order", "buy", "purchase", "get", "find",
@@ -1256,10 +1256,10 @@
             };
         }
 
-       function buildTargetDeepLink(appKey, appConfig, query) {
-       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-       const pattern = isMobile ? appConfig.mobileDeepLink : appConfig.desktopWebLink;
-       return `${pattern}${encodeURIComponent(query)}`;
+        function buildTargetDeepLink(appKey, appConfig, query) {
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            const pattern = isMobile ? appConfig.mobileDeepLink : appConfig.desktopWebLink;
+            return `${pattern}${encodeURIComponent(query)}`;
         }
 
         function logFullTerminal(msg, level = "INFO") {
@@ -1343,7 +1343,7 @@
                     updateVoiceUIState(true);
                     document.getElementById("liveWaveform").style.display = "flex";
                     logFullTerminal("[ASR STREAM] Microphone listening live (en-IN)...", "INFO");
-                    synthesizeAudioFeedback("Voice listener active. Speak your command for Amazon, Flipkart, Meesho, Zomato, or Swiggy.");
+                    // Silent on start: No automatic welcome speech or announcements
                 };
 
                 speechRecognitionInstance.onresult = (event) => {
@@ -1781,7 +1781,6 @@
 
                 markQADimension("evidence", `Artifact #${proofArchiveCount} (${sha256Hash.substring(0, 10)}...)`);
                 logFullTerminal(`[PROOF ARCHIVED] ${artifact.appSlug}_proof_${proofArchiveCount}.png | SHA-256: ${sha256Hash}`, "SUCCESS");
-                synthesizeAudioFeedback(`Proof snapshot for live ${artifact.appName} saved.`);
                 showToastMessage(`Proof #${proofArchiveCount} captured with SHA-256 hash!`);
             }).catch(err => {
                 logFullTerminal(`[CAPTURE ERROR] ${err.message}`, "ERROR");
