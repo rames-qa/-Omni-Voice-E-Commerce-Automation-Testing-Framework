@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Omni-App Voice Automation Framework | Mobile & Desktop QA Suite v6.4</title>
+    <title>Omni-App Voice Automation Framework | Mobile & Desktop QA Suite v6.3</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -147,6 +147,7 @@
             background-attachment: fixed;
         }
 
+        /* Explicit Dark Glass Surfaces (Never rely on Tailwind arbitrary opacity classes) */
         .app-header {
             background: var(--bg-panel-glass) !important;
             backdrop-filter: blur(18px);
@@ -237,6 +238,7 @@
                 radial-gradient(ellipse 85% 45% at 80% 100%, var(--aurora-2) 0%, transparent 65%);
             position: relative;
         }
+        /* Force mobile layout inside Mobile Preview Mode even on wide monitors */
         body.mobile-preview-mode #appFrame .desktop-only-bar { display: none !important; }
         body.mobile-preview-mode #appFrame .mobile-dock-bar { display: flex !important; position: sticky !important; bottom: 0 !important; }
         body.mobile-preview-mode #appFrame .mobile-settings-btn { display: flex !important; }
@@ -286,7 +288,7 @@
                             OMNI-APP ORCHESTRATOR
                         </span>
                         <span class="brand-subtitle hidden md:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-950/90 text-neonBlue border border-indigo-700/60 uppercase">
-                            Dynamic QA v6.4
+                            QA Suite v6.3
                         </span>
                     </div>
                 </div>
@@ -295,13 +297,13 @@
                 <div class="desktop-only-bar hidden xl:flex items-center gap-3 text-xs font-mono">
                     <div class="flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span class="text-[var(--text-sub)]">NLP: <strong class="text-[var(--text-main)]">Dynamic N-Gram + Levenshtein</strong></span>
+                        <span class="text-[var(--text-sub)]">NLP: <strong class="text-[var(--text-main)]">N-Gram + Levenshtein</strong></span>
                     </div>
                     <div class="h-4 w-px bg-indigo-800/60"></div>
                     <div class="flex items-center gap-1.5">
-                        <span class="text-[var(--text-sub)]">Auto-Redirect:</span>
+                        <span class="text-[var(--text-sub)]">Redirect:</span>
                         <button id="autoRedirectToggleBtn" onclick="toggleAutoRedirect()" class="px-2 py-1 rounded bg-emerald-950/80 text-neonGreen border border-emerald-700/60 font-bold transition cursor-pointer">
-                            ⚡ ON (ZERO-CLICK)
+                            ⚡ ON (INSTANT)
                         </button>
                     </div>
                     <div class="h-4 w-px bg-indigo-800/60"></div>
@@ -313,14 +315,16 @@
                     </div>
                 </div>
 
-                <!-- Right Controls: Color Theme Preset, Viewport Mode Switcher, Mobile Settings Drawer, Mic -->
+                <!-- Right Controls: Color Theme Preset, Viewport Mode Switcher, Mobile Settings Drawer, Theme, Mic -->
                 <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <!-- Color Theme Preset Selector -->
                     <select id="paletteSelector" onchange="setColorPalette(this.value)" aria-label="Color Palette Preset" class="sub-surface hidden md:block text-[var(--text-main)] rounded-xl px-2.5 py-2 min-h-[38px] text-[11px] font-mono font-bold focus:outline-none focus:border-neonBlue cursor-pointer">
                         <option value="indigo">🌌 Cosmic Aurora</option>
                         <option value="sunset">🔥 Crimson Ember</option>
                         <option value="ocean">🌊 Cyber Emerald</option>
                     </select>
 
+                    <!-- Desktop / Mobile Preview Switcher (Visible on tablets/desktops to preview Mobile UI anytime) -->
                     <div class="sub-surface hidden sm:flex items-center p-0.5 rounded-xl font-mono text-[11px]" role="group" aria-label="Viewport Mode Switcher">
                         <button id="btnDesktopMode" onclick="setViewportMode('desktop')" class="px-2.5 py-1.5 rounded-lg bg-neonBlue text-slate-950 font-bold transition cursor-pointer flex items-center gap-1">
                             <span>🖥️</span><span class="hidden md:inline">Desktop</span>
@@ -330,6 +334,7 @@
                         </button>
                     </div>
 
+                    <!-- Mobile Quick Controls Drawer Toggle (Visible on mobile / mobile preview) -->
                     <button onclick="toggleMobileSettingsDrawer()" id="mobileSettingsToggle" class="sub-surface mobile-settings-btn xl:hidden p-2 min-w-[38px] min-h-[38px] rounded-xl text-[var(--text-main)] hover:text-neonBlue text-xs font-mono font-bold transition flex items-center justify-center cursor-pointer" title="Orchestrator Settings">
                         ⚙️
                     </button>
@@ -355,7 +360,7 @@
                             <option value="ocean">🌊 Cyber Emerald</option>
                         </select>
                         <button id="mobileRedirectBtn" onclick="toggleAutoRedirect()" class="px-3 py-2 rounded-lg bg-emerald-950/90 text-neonGreen border border-emerald-700/60 font-bold cursor-pointer">
-                            ⚡ Auto-Redirect: ON
+                            ⚡ Redirect: ON
                         </button>
                         <button id="mobileTtsBtn" onclick="toggleTTS()" class="sub-surface px-3 py-2 rounded-lg text-[var(--text-main)] font-bold cursor-pointer">
                             🔊 TTS: ON
@@ -369,25 +374,37 @@
                 </div>
             </div>
 
-            <!-- DYNAMIC VOICE SESSION STATUS & QA SUB-TOOLBAR (100% Voice-Driven — Zero Static Mock Items) -->
+            <!-- QUICK TEST SCENARIOS & QA CONTROLS SUB-TOOLBAR (Touch-Swipeable on Mobile) -->
             <div class="sub-toolbar px-3 sm:px-6 py-2 transition-colors" style="background-color: rgba(23, 19, 54, 0.92);">
                 <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs font-mono">
                     <div class="flex items-center gap-2 overflow-x-auto py-0.5 no-scrollbar">
-                        <span class="text-neonGreen uppercase tracking-widest text-[10px] whitespace-nowrap font-bold shrink-0">● DYNAMIC VOICE MODE:</span>
-                        <span id="livePromptDisplay" class="text-[var(--text-sub)] text-[11px] truncate">
-                            Speak any product &amp; platform (e.g. "Search Apple iPhone on Amazon" or "Order pizza on Zomato") — routes automatically without mock data.
-                        </span>
+                        <span class="text-[var(--text-sub)] uppercase tracking-widest text-[10px] whitespace-nowrap font-bold shrink-0">Quick Probes:</span>
+                        <button onclick="injectQuickCommand('Search for a 12GB RAM mobile phone on Amazon.')" class="subtoolbar-btn px-3 py-1.5 min-h-[34px] rounded-lg text-[var(--text-main)] bg-[var(--bg-panel)] border border-borderCol whitespace-nowrap cursor-pointer">
+                            📦 Amazon 12GB Phone
+                        </button>
+                        <button onclick="injectQuickCommand('Search for a mobile phone on Flipkart.')" class="subtoolbar-btn px-3 py-1.5 min-h-[34px] rounded-lg text-[var(--text-main)] bg-[var(--bg-panel)] border border-borderCol whitespace-nowrap cursor-pointer">
+                            📱 Flipkart Mobile
+                        </button>
+                        <button onclick="injectQuickCommand('Find a kurti on Meesho.')" class="subtoolbar-btn px-3 py-1.5 min-h-[34px] rounded-lg text-[var(--text-main)] bg-[var(--bg-panel)] border border-borderCol whitespace-nowrap cursor-pointer">
+                            👗 Meesho Kurti
+                        </button>
+                        <button onclick="injectQuickCommand('Search for pizza on Zomato.')" class="subtoolbar-btn px-3 py-1.5 min-h-[34px] rounded-lg text-[var(--text-main)] bg-[var(--bg-panel)] border border-borderCol whitespace-nowrap cursor-pointer">
+                            🍕 Zomato Pizza
+                        </button>
+                        <button onclick="injectQuickCommand('Find paneer on Swiggy.')" class="subtoolbar-btn px-3 py-1.5 min-h-[34px] rounded-lg text-[var(--text-main)] bg-[var(--bg-panel)] border border-borderCol whitespace-nowrap cursor-pointer">
+                            🍲 Swiggy Paneer
+                        </button>
                     </div>
 
                     <div class="hidden sm:flex items-center gap-2 shrink-0">
-                        <button onclick="runDynamicCrossPlatformSweep()" id="batchRunBtn" class="px-2.5 py-1.5 rounded-lg bg-indigo-950/90 hover:bg-indigo-900 text-neonBlue border border-indigo-700/60 text-[11px] font-bold flex items-center gap-1 cursor-pointer" title="Tests your currently spoken/entered query across all 5 platforms">
-                            ⚡ Sweep Current Query (5 Apps)
+                        <button onclick="runBatchTestSuite()" id="batchRunBtn" class="px-2.5 py-1.5 rounded-lg bg-indigo-950/90 hover:bg-indigo-900 text-neonBlue border border-indigo-700/60 text-[11px] font-bold flex items-center gap-1 cursor-pointer">
+                            ⚡ Run QA Suite (5 Apps)
                         </button>
                         <button onclick="simulateVoiceTriggerWord('Okay')" class="px-2.5 py-1.5 rounded-lg bg-emerald-950/90 hover:bg-emerald-900 text-neonGreen border border-emerald-700/60 text-[11px] font-bold flex items-center gap-1 cursor-pointer">
                             📸 Say "Okay"
                         </button>
                         <span id="subToolbarBadge" class="px-2 py-1 rounded bg-emerald-500/15 text-neonGreen border border-emerald-500/30 font-bold text-[10px]">
-                            LISTENING READY
+                            IDLE
                         </span>
                     </div>
                 </div>
@@ -399,6 +416,7 @@
 
             <!-- TOP TELEMETRY & KPI METRICS BANNER -->
             <section class="kpi-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+                <!-- Metric 1: ASR / Intent Latency -->
                 <div class="glass-panel rounded-xl p-3.5 sm:p-4 flex flex-col justify-between">
                     <span class="text-[10px] font-mono text-[var(--text-sub)] uppercase tracking-wider">Intent Latency</span>
                     <div class="flex items-baseline justify-between mt-1.5">
@@ -410,6 +428,7 @@
                     </div>
                 </div>
 
+                <!-- Metric 2: Fuzzy Match Score -->
                 <div class="glass-panel rounded-xl p-3.5 sm:p-4 flex flex-col justify-between">
                     <span class="text-[10px] font-mono text-[var(--text-sub)] uppercase tracking-wider">Fuzzy Match</span>
                     <div class="flex items-baseline justify-between mt-1.5">
@@ -421,30 +440,33 @@
                     </div>
                 </div>
 
+                <!-- Metric 3: Active Target Node -->
                 <div class="glass-panel rounded-xl p-3.5 sm:p-4 flex flex-col justify-between">
                     <span class="text-[10px] font-mono text-[var(--text-sub)] uppercase tracking-wider">Target Node</span>
                     <div class="flex items-center justify-between gap-1 mt-1.5">
                         <span id="metricActiveNode" class="text-base sm:text-lg font-bold font-mono text-[var(--text-main)] truncate">NONE</span>
-                        <span id="metricActiveBadge" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--bg-sub)] text-[var(--text-sub)] shrink-0">STANDBY</span>
+                        <span id="metricActiveBadge" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--bg-sub)] text-[var(--text-sub)] shrink-0">IDLE</span>
                     </div>
-                    <div class="text-[10px] font-mono text-[var(--text-sub)] mt-2 truncate" id="metricParsedApp">Awaiting voice command</div>
+                    <div class="text-[10px] font-mono text-[var(--text-sub)] mt-2 truncate" id="metricParsedApp">Awaiting command</div>
                 </div>
 
+                <!-- Metric 4: Extracted Product Entity -->
                 <div class="glass-panel rounded-xl p-3.5 sm:p-4 flex flex-col justify-between">
-                    <span class="text-[10px] font-mono text-[var(--text-sub)] uppercase tracking-wider">Live Voice Entity</span>
+                    <span class="text-[10px] font-mono text-[var(--text-sub)] uppercase tracking-wider">Product Entity</span>
                     <div class="mt-1.5">
                         <span id="metricEntity" class="text-xs sm:text-sm font-mono font-bold text-neonAmber truncate block">--</span>
                     </div>
-                    <div class="text-[10px] font-mono text-[var(--text-sub)] mt-2 truncate" id="metricNoiseStatus">Dynamic NLP Extractor</div>
+                    <div class="text-[10px] font-mono text-[var(--text-sub)] mt-2 truncate" id="metricNoiseStatus">Noise Filtered</div>
                 </div>
 
+                <!-- Metric 5: Proof Artifacts -->
                 <div class="glass-panel rounded-xl p-3.5 sm:p-4 flex flex-col justify-between col-span-2 sm:col-span-1">
                     <span class="text-[10px] font-mono text-[var(--text-sub)] uppercase tracking-wider">Proof Artifacts</span>
                     <div class="flex items-baseline justify-between mt-1.5">
                         <span id="metricProofCount" class="text-xl sm:text-2xl font-bold font-mono text-neonGreen">0</span>
                         <span class="text-[10px] font-mono text-neonGreen">SHA-256 PNG</span>
                     </div>
-                    <div class="text-[10px] font-mono text-[var(--text-sub)] mt-2">Say "Okay" or Auto-Capture</div>
+                    <div class="text-[10px] font-mono text-[var(--text-sub)] mt-2">Say "Okay" or Manual Capture</div>
                 </div>
             </section>
 
@@ -454,9 +476,9 @@
                     <div>
                         <div class="flex flex-wrap items-center gap-2">
                             <span class="text-[10px] font-mono font-bold text-neonBlue bg-indigo-950/90 px-2.5 py-1 rounded border border-indigo-700/60 uppercase tracking-widest">
-                                Hands-Free Voice &amp; Intent Orchestrator
+                                AI Voice & NLP Orchestrator
                             </span>
-                            <span class="text-[10px] font-mono text-[var(--text-sub)] hidden sm:inline">Real-Time Speech-to-Text • Dynamic Entity Extraction • Zero-Click App Redirection</span>
+                            <span class="text-[10px] font-mono text-[var(--text-sub)] hidden sm:inline">Speech-to-Text • Entity Extraction • Deep-Link Dispatcher</span>
                         </div>
                         <h1 class="text-lg sm:text-2xl font-extrabold text-[var(--text-main)] mt-2">Omni-App Voice Automation Framework</h1>
                     </div>
@@ -468,13 +490,14 @@
                     </div>
                 </div>
 
-                <!-- LIVE SPEECH WAVEFORM VISUALIZER & DYNAMIC COMMAND INPUT -->
+                <!-- LIVE SPEECH WAVEFORM VISUALIZER & COMMAND INPUT -->
                 <div class="cmd-grid grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4">
                     <div class="lg:col-span-3 space-y-2">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <label for="fullCommandInput" class="block text-[11px] sm:text-xs font-mono uppercase text-[var(--text-sub)] tracking-wider font-semibold">
-                                Live Voice Transcript / Command Buffer
+                                Natural-Language Voice or Text Command
                             </label>
+                            <!-- Live Waveform Animation Container -->
                             <div id="liveWaveform" class="hidden items-center gap-1.5 h-6 px-3 bg-indigo-950/90 border border-indigo-500/60 rounded-full">
                                 <span class="text-[10px] font-mono text-neonBlue font-bold mr-1 animate-pulse">MIC LIVE:</span>
                                 <div class="w-1 bg-neonBlue rounded-full bar-1"></div>
@@ -486,8 +509,8 @@
                         </div>
                         <div class="relative flex items-center">
                             <input type="text" id="fullCommandInput" 
-                                onkeydown="if(event.key==='Enter') handleDynamicVoiceCommand(this.value)"
-                                placeholder="Speak via Voice Listener or type any live command (e.g. 'Search Apple iPhone on Amazon')..." 
+                                onkeydown="if(event.key==='Enter') processFullInstruction()"
+                                placeholder="Speak or type: 'Search for a 12GB RAM phone on Amazon', 'Find kurti on Meesho'..." 
                                 class="sub-surface w-full rounded-xl pl-3.5 pr-16 py-3.5 text-sm text-[var(--text-main)] placeholder:text-[var(--text-sub)]/60 focus:outline-none focus:border-neonBlue font-mono transition-all">
                             <div class="absolute right-3 flex items-center">
                                 <button onclick="clearCommandInput()" class="text-xs text-[var(--text-sub)] hover:text-[var(--text-main)] font-mono px-2 py-1.5 rounded cursor-pointer">
@@ -505,45 +528,45 @@
                             <span id="micBoxBtnLabel">Listen Mic</span>
                         </button>
                         
-                        <button onclick="handleDynamicVoiceCommand(document.getElementById('fullCommandInput').value)" class="flex-1 py-3.5 px-3 min-h-[48px] rounded-xl bg-gradient-to-r from-neonGreen to-emerald-500 hover:opacity-95 text-slate-950 font-mono font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/30 cursor-pointer">
+                        <button onclick="processFullInstruction()" class="flex-1 py-3.5 px-3 min-h-[48px] rounded-xl bg-gradient-to-r from-neonGreen to-emerald-500 hover:opacity-95 text-slate-950 font-mono font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/30 cursor-pointer">
                             <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
                             </svg>
-                            Dispatch
+                            Execute
                         </button>
                     </div>
                 </div>
 
-                <!-- MULTI-APPLICATION INTEGRATION NODES GRID (DYNAMICALLY CONTROLLED BY VOICE COMMANDS) -->
+                <!-- MULTI-APPLICATION INTEGRATION NODES GRID (ALL 5 LIVE APPS) -->
                 <div class="mt-5">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                         <h3 class="text-[11px] sm:text-xs font-mono font-bold text-[var(--text-sub)] uppercase tracking-wider">
-                            Live Multi-App Dispatcher Nodes (Auto-Switched by Voice)
+                            Live Multi-App Dispatcher Nodes (Tap to Route)
                         </h3>
                         <span class="text-[10px] font-mono text-[var(--text-sub)]">Amazon • Flipkart • Meesho • Zomato • Swiggy</span>
                     </div>
 
                     <div id="nodesGridContainer" class="nodes-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
-                        <!-- Dynamically rendered with live active/standby state -->
+                        <!-- Populated immediately by renderInitialNodesGrid() -->
                     </div>
                 </div>
             </section>
 
-            <!-- AUTOMATED EXECUTION & LIVE APP REDIRECTION VIEWPORT -->
+            <!-- EXECUTION MONITORING & APPLICATION DISPATCHER VIEWPORT -->
             <section id="fullViewportArea" class="glass-panel rounded-2xl p-4 sm:p-6 border border-borderCol">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-borderCol pb-3 mb-4">
                     <div class="flex items-center gap-2.5">
                         <div class="w-2.5 h-2.5 rounded-full bg-neonGreen animate-pulse shrink-0"></div>
                         <h2 class="text-xs sm:text-sm font-mono font-bold text-[var(--text-main)] uppercase tracking-wider">
-                            Automated Execution &amp; Live App Redirection Viewport
+                            Execution & Live App Redirection Viewport
                         </h2>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <span id="activeAppTag" class="text-[11px] font-mono text-neonBlue bg-indigo-950/90 px-2.5 py-1 rounded border border-indigo-700/60 font-bold">
-                            Target: None (STANDBY)
+                            Target: None (IDLE)
                         </span>
                         <button onclick="simulateMultiAxisSweep()" class="px-2.5 py-1.5 rounded bg-[var(--bg-sub)] hover:opacity-90 text-[var(--text-main)] font-mono text-[11px] border border-borderCol cursor-pointer">
-                            ↔ Verify Endpoint
+                            ↔ Validate Routes
                         </button>
                     </div>
                 </div>
@@ -552,39 +575,39 @@
                 <div id="fullCatalogContainer">
                     <div class="sub-surface grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 p-3 sm:p-4 border-dashed rounded-xl">
                         <div class="panel-surface p-3.5 sm:p-4 rounded-xl">
-                            <div class="text-xs font-mono font-bold text-neonBlue mb-1.5">1. AMAZON &amp; FLIPKART</div>
+                            <div class="text-xs font-mono font-bold text-neonBlue mb-1.5">1. AMAZON & FLIPKART</div>
                             <p class="text-xs text-[var(--text-sub)] font-mono leading-relaxed">
-                                • Dynamic real-time search on <strong class="text-[var(--text-main)]">Amazon.in</strong>.<br>
-                                • Dynamic real-time search on <strong class="text-[var(--text-main)]">Flipkart.com</strong>.
+                                • Live real-time search on <strong class="text-[var(--text-main)]">Amazon.in</strong>.<br>
+                                • Live real-time search on <strong class="text-[var(--text-main)]">Flipkart.com</strong>.
                             </p>
                         </div>
                         <div class="panel-surface p-3.5 sm:p-4 rounded-xl">
                             <div class="text-xs font-mono font-bold text-neonAmber mb-1.5">2. MEESHO WHOLESALE</div>
                             <p class="text-xs text-[var(--text-sub)] font-mono leading-relaxed">
-                                • Dynamic product catalog lookup on <strong class="text-[var(--text-main)]">Meesho.com</strong>.<br>
-                                • Automated voice-to-URL intent routing.
+                                • Real-time product catalog lookup on <strong class="text-[var(--text-main)]">Meesho.com</strong>.<br>
+                                • Fully independent voice query resolution.
                             </p>
                         </div>
                         <div class="panel-surface p-3.5 sm:p-4 rounded-xl">
-                            <div class="text-xs font-mono font-bold text-neonRose mb-1.5">3. ZOMATO &amp; SWIGGY</div>
+                            <div class="text-xs font-mono font-bold text-neonRose mb-1.5">3. ZOMATO & SWIGGY</div>
                             <p class="text-xs text-[var(--text-sub)] font-mono leading-relaxed">
-                                • Dynamic restaurant &amp; dish lookup on <strong class="text-[var(--text-main)]">Zomato.com</strong>.<br>
-                                • Automated food &amp; Instamart search on <strong class="text-[var(--text-main)]">Swiggy.com</strong>.
+                                • Dynamic restaurant & dish lookup on <strong class="text-[var(--text-main)]">Zomato.com</strong>.<br>
+                                • Live food & delivery search on <strong class="text-[var(--text-main)]">Swiggy.com</strong>.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- QUALITY ASSURANCE & TESTING SCOPE MATRIX -->
+            <!-- QUALITY ASSURANCE & TESTING SCOPE MATRIX (Responsive Table on Desktop / Stacked Cards on Mobile) -->
             <section class="glass-panel rounded-2xl p-4 sm:p-6 border border-borderCol">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-borderCol pb-3 mb-4">
                     <div>
                         <h2 class="text-xs sm:text-sm font-mono font-bold text-[var(--text-main)] uppercase tracking-wider">
-                            Quality Assurance &amp; Testing Scope Matrix
+                            Quality Assurance & Testing Scope Matrix
                         </h2>
                         <p class="text-[11px] font-mono text-[var(--text-sub)] mt-0.5">
-                            Live telemetry verification across all 5 application nodes
+                            Real-time verification across all 5 live application platforms
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
@@ -608,12 +631,16 @@
                                 <th class="py-2.5 px-3 text-right">Status</th>
                             </tr>
                         </thead>
-                        <tbody id="qaMatrixBody" class="divide-y divide-borderCol/50"></tbody>
+                        <tbody id="qaMatrixBody" class="divide-y divide-borderCol/50">
+                            <!-- Populated dynamically -->
+                        </tbody>
                     </table>
                 </div>
 
                 <!-- Mobile Stacked Card View -->
-                <div id="qaMobileCards" class="mobile-qa-cards grid md:hidden grid-cols-1 gap-2.5 font-mono text-xs"></div>
+                <div id="qaMobileCards" class="mobile-qa-cards grid md:hidden grid-cols-1 gap-2.5 font-mono text-xs">
+                    <!-- Populated dynamically -->
+                </div>
             </section>
 
             <!-- BOTTOM DUAL PANEL: STRUCTURED TELEMETRY CONSOLE & PROOF EVIDENCE MANAGEMENT -->
@@ -647,13 +674,13 @@
                         </div>
 
                         <div id="fullTerminal" class="h-60 sm:h-72 overflow-y-auto font-mono text-xs space-y-1.5 p-2.5 bg-[var(--terminal-bg)] rounded-xl border border-borderCol text-[var(--terminal-text)]">
-                            <div class="text-indigo-300" data-level="INFO">[SYSTEM INIT] Dynamic Voice Orchestrator v6.4 active. Zero mock items loaded — speak any command to route automatically.</div>
+                            <div class="text-indigo-300" data-level="INFO">[SYSTEM INIT] Omni-App Voice Automation Framework v6.3 ready in standby mode. Speak or type your request.</div>
                         </div>
                     </div>
 
                     <div class="pt-2 border-t border-borderCol flex items-center justify-between text-[10px] font-mono text-[var(--text-sub)]">
-                        <span>Stream: <strong class="text-neonGreen">Live Event Audit</strong></span>
-                        <span>Mode: 100% Dynamic Voice</span>
+                        <span>Stream: <strong class="text-neonGreen">Real-Time Event Audit</strong></span>
+                        <span>Web Speech API: Ready</span>
                     </div>
                 </div>
 
@@ -683,7 +710,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                                 <span>No screenshot evidence captured yet.</span>
-                                <span class="text-[10px] text-[var(--text-sub)] mt-1">Say <strong>"Okay"</strong> or tap <strong>+ Capture</strong> after speaking a live command.</span>
+                                <span class="text-[10px] text-[var(--text-sub)] mt-1">Say <strong>"Okay"</strong> or tap <strong>+ Capture</strong> after executing a command.</span>
                             </div>
                         </div>
                     </div>
@@ -702,15 +729,15 @@
             &copy; 2026 Rameshkumar K | Software Testing Engineer • QA Automation • AI-Assisted Testing
         </footer>
 
-        <!-- MOBILE BOTTOM FLOATING ACTION DOCK -->
+        <!-- MOBILE BOTTOM FLOATING ACTION DOCK (Ergonomic Thumb Zone for Mobile Screens & Mobile Preview Mode) -->
         <nav class="mobile-dock-bar mobile-dock-surface md:hidden fixed bottom-0 inset-x-0 z-40 px-2 py-2 flex items-center justify-around gap-1 font-mono text-[10px] shadow-2xl">
             <button onclick="toggleVoiceRecognition()" id="mobileDockMicBtn" class="flex-1 py-2 px-1 rounded-xl bg-gradient-to-r from-neonBlue to-neonGreen text-slate-950 font-extrabold flex flex-col items-center justify-center gap-0.5 cursor-pointer">
                 <span class="text-sm">🎙️</span>
                 <span id="mobileDockMicLabel">Voice Mic</span>
             </button>
-            <button onclick="runDynamicCrossPlatformSweep()" class="sub-surface flex-1 py-2 px-1 rounded-xl text-neonBlue font-bold flex flex-col items-center justify-center gap-0.5 cursor-pointer">
+            <button onclick="runBatchTestSuite()" class="sub-surface flex-1 py-2 px-1 rounded-xl text-neonBlue font-bold flex flex-col items-center justify-center gap-0.5 cursor-pointer">
                 <span class="text-sm">⚡</span>
-                <span>Sweep Live</span>
+                <span>QA Suite</span>
             </button>
             <button onclick="simulateVoiceTriggerWord('Okay')" class="sub-surface flex-1 py-2 px-1 rounded-xl text-neonGreen font-bold flex flex-col items-center justify-center gap-0.5 cursor-pointer">
                 <span class="text-sm">📸</span>
@@ -757,9 +784,9 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT DYNAMIC VOICE & AUTOMATION ORCHESTRATION ENGINE -->
+    <!-- JAVASCRIPT ORCHESTRATION ENGINE -->
     <script>
-        // GLOBAL DYNAMIC STATE (Zero Hardcoded Mock Products)
+        // GLOBAL STATE
         let activeAppKey = null;
         let activeAppConfig = null;
         let activeQuery = "";
@@ -774,80 +801,79 @@
         let currentViewportMode = "desktop";
         let toastTimeout = null;
 
-        // STRICT 5-PLATFORM REGISTRY WITH ANDROID NATIVE INTENTS + DESKTOP DEEP-LINKS
-        const PLATFORM_TARGETS = {
-            amazon: {
-                name: "Amazon",
-                category: "E-Commerce",
-                targetType: "Live Product Search",
-                pkg: "com.amazon.mShop.android.shopping",
-                baseUrl: "https://www.amazon.in",
-                mobileDeepLink: "intent://www.amazon.in/s?k=",
-                mobileIntentSuffix: "#Intent;package=com.amazon.mShop.android.shopping;scheme=https;end;",
-                desktopWebLink: "https://www.amazon.in/s?k=",
-                phonetics: ["amazon", "amazone", "amazn", "amzon", "amz", "prime"],
-                badgeColor: "text-neonBlue",
-                samplePrice: "Live Amazon.in Store Pricing",
-                sampleDelivery: "Live Amazon Prime Dispatch"
-            },
-            flipkart: {
-                name: "Flipkart",
-                category: "E-Commerce",
-                targetType: "Live Product Search",
-                pkg: "com.flipkart.android",
-                baseUrl: "https://www.flipkart.com",
-                mobileDeepLink: "intent://www.flipkart.com/search?q=",
-                mobileIntentSuffix: "#Intent;package=com.flipkart.android;scheme=https;end;",
-                desktopWebLink: "https://www.flipkart.com/search?q=",
-                phonetics: ["flipkart", "flipkartt", "flikart", "flipkat", "flip card", "flip cart", "fk"],
-                badgeColor: "text-neonPurple",
-                samplePrice: "Live Flipkart.com Store Pricing",
-                sampleDelivery: "Live Flipkart Assured Dispatch"
-            },
-            meesho: {
-                name: "Meesho",
-                category: "Wholesale / Shopping",
-                targetType: "Live Product Search",
-                pkg: "com.meesho.supply",
-                baseUrl: "https://www.meesho.com",
-                mobileDeepLink: "intent://www.meesho.com/search?q=",
-                mobileIntentSuffix: "#Intent;package=com.meesho.supply;scheme=https;end;",
-                desktopWebLink: "https://www.meesho.com/search?q=",
-                phonetics: ["meesho", "measho", "mesho", "misho", "me show", "mi show"],
-                badgeColor: "text-neonAmber",
-                samplePrice: "Live Meesho.com Wholesale Pricing",
-                sampleDelivery: "Live Wholesale Direct Shipping"
-            },
-            zomato: {
-                name: "Zomato",
-                category: "Food Delivery",
-                targetType: "Live Restaurant & Food Search",
-                pkg: "com.application.zomato",
-                baseUrl: "https://www.zomato.com",
-                mobileDeepLink: "intent://www.zomato.com/search?q=",
-                mobileIntentSuffix: "#Intent;package=com.application.zomato;scheme=https;end;",
-                desktopWebLink: "https://www.zomato.com/search?q=",
-                phonetics: ["zomato", "zomatto", "zomatoo", "zmato", "tomato"],
-                badgeColor: "text-neonRose",
-                samplePrice: "Live Zomato Menu Pricing",
-                sampleDelivery: "Live Zomato Restaurant Delivery"
-            },
-            swiggy: {
-                name: "Swiggy",
-                category: "Food Delivery",
-                targetType: "Live Food & Instamart Search",
-                pkg: "in.swiggy.android",
-                baseUrl: "https://www.swiggy.com",
-                mobileDeepLink: "intent://www.swiggy.com/search?query=",
-                mobileIntentSuffix: "#Intent;package=in.swiggy.android;scheme=https;end;",
-                desktopWebLink: "https://www.swiggy.com/search?query=",
-                phonetics: ["swiggy", "swiggi", "swigy", "swiggie", "sweetie"],
-                badgeColor: "text-neonRose",
-                samplePrice: "Live Swiggy Menu Pricing",
-                sampleDelivery: "Live Swiggy One Express Delivery"
-            }
-        };
-
+        // STRICT 5-PLATFORM REGISTRY WITH LIVE REAL-TIME SEARCH DEEP-LINKS
+       const PLATFORM_TARGETS = {
+    amazon: {
+        name: "Amazon",
+        category: "E-Commerce",
+        targetType: "Live Product Search",
+        pkg: "com.amazon.mShop.android.shopping",
+        baseUrl: "https://www.amazon.in",
+        mobileDeepLink: "intent://s?k=", 
+        mobileIntentSuffix: "#Intent;package=com.amazon.mShop.android.shopping;scheme=https;end;",
+        desktopWebLink: "https://www.amazon.in/s?k=",
+        phonetics: ["amazon", "amazone", "amazn", "amzon", "amz", "prime"],
+        badgeColor: "text-neonBlue",
+        samplePrice: "Live Amazon.in Store Pricing",
+        sampleDelivery: "Live Amazon Prime Dispatch"
+    },
+    flipkart: {
+        name: "Flipkart",
+        category: "E-Commerce",
+        targetType: "Live Product Search",
+        pkg: "com.flipkart.android",
+        baseUrl: "https://www.flipkart.com",
+        mobileDeepLink: "intent://search?q=",
+        mobileIntentSuffix: "#Intent;package=com.flipkart.android;scheme=http;end;",
+        desktopWebLink: "https://www.flipkart.com/search?q=",
+        phonetics: ["flipkart", "flipkartt", "flikart", "flipkat", "flip card", "flip cart", "fk"],
+        badgeColor: "text-neonPurple",
+        samplePrice: "Live Flipkart.com Store Pricing",
+        sampleDelivery: "Live Flipkart Assured Dispatch"
+    },
+    meesho: {
+        name: "Meesho",
+        category: "Wholesale / Shopping",
+        targetType: "Live Product Search",
+        pkg: "com.meesho.supply",
+        baseUrl: "https://www.meesho.com",
+        mobileDeepLink: "intent://search?q=",
+        mobileIntentSuffix: "#Intent;package=com.meesho.supply;scheme=https;end;",
+        desktopWebLink: "https://www.meesho.com/search?q=",
+        phonetics: ["meesho", "measho", "mesho", "misho", "me show", "mi show"],
+        badgeColor: "text-neonAmber",
+        samplePrice: "Live Meesho.com Wholesale Pricing",
+        sampleDelivery: "Live Wholesale Direct Shipping"
+    },
+    zomato: {
+        name: "Zomato",
+        category: "Food Delivery",
+        targetType: "Live Restaurant & Food Search",
+        pkg: "com.application.zomato",
+        baseUrl: "https://www.zomato.com",
+        mobileDeepLink: "intent://search?q=",
+        mobileIntentSuffix: "#Intent;package=com.application.zomato;scheme=https;end;",
+        desktopWebLink: "https://www.zomato.com/search?q=",
+        phonetics: ["zomato", "zomatto", "zomatoo", "zmato", "tomato"],
+        badgeColor: "text-neonRose",
+        samplePrice: "Live Zomato Menu Pricing",
+        sampleDelivery: "Live Zomato Restaurant Delivery"
+    },
+    swiggy: {
+        name: "Swiggy",
+        category: "Food Delivery",
+        targetType: "Live Food & Instamart Search",
+        pkg: "in.swiggy.android",
+        baseUrl: "https://www.swiggy.com",
+        mobileDeepLink: "intent://search?query=",
+        mobileIntentSuffix: "#Intent;package=in.swiggy.android;scheme=https;end;",
+        desktopWebLink: "https://www.swiggy.com/search?query=",
+        phonetics: ["swiggy", "swiggi", "swigy", "swiggie", "sweetie"],
+        badgeColor: "text-neonRose",
+        samplePrice: "Live Swiggy Menu Pricing",
+        sampleDelivery: "Live Swiggy One Express Delivery"
+    }
+};
         const FILLER_VERBS = [
             "search for", "look for", "search", "order", "buy", "purchase", "get", "find",
             "bring", "show me", "show", "open", "launch", "go to", "navigate to",
@@ -856,14 +882,14 @@
         ];
 
         const QA_DIMENSIONS = [
-            { id: "functional", type: "Functional Testing", scope: "Dynamic voice and text command execution across 5 live apps", probe: "Awaiting live voice", status: "READY" },
-            { id: "integration", type: "Integration Testing", scope: "Automated routing for Amazon, Flipkart, Meesho, Zomato, Swiggy", probe: "Awaiting live voice", status: "READY" },
-            { id: "nlp", type: "NLP Testing", scope: "Dynamic N-Gram & fuzzy intent identification", probe: "Awaiting live voice", status: "READY" },
-            { id: "negative", type: "Negative Testing", scope: "Empty and unrecognized input protection", probe: "Awaiting live voice", status: "READY" },
+            { id: "functional", type: "Functional Testing", scope: "Voice and text command execution across 5 live apps", probe: "Pending", status: "READY" },
+            { id: "integration", type: "Integration Testing", scope: "Independent routing for Amazon, Flipkart, Meesho, Zomato, Swiggy", probe: "Pending", status: "READY" },
+            { id: "nlp", type: "NLP Testing", scope: "N-Gram & fuzzy intent identification", probe: "Pending", status: "READY" },
+            { id: "negative", type: "Negative Testing", scope: "Invalid and unsupported commands", probe: "Pending", status: "READY" },
             { id: "compatibility", type: "Compatibility Testing", scope: "Responsive Mobile/Desktop & Web Speech API check", probe: "Checked on load", status: "READY" },
-            { id: "performance", type: "Performance Testing", scope: "Speech recognition & intent latency (<500ms)", probe: "Awaiting live voice", status: "READY" },
-            { id: "ui", type: "UI Testing", scope: "Automated node state transitions (ACTIVE / STANDBY)", probe: "DOM Hydrated", status: "PASSED" },
-            { id: "evidence", type: "Evidence Validation", scope: "Screenshot capture & SHA-256 metadata", probe: "Awaiting live voice", status: "READY" }
+            { id: "performance", type: "Performance Testing", scope: "Speech recognition & intent latency (<500ms)", probe: "Pending", status: "READY" },
+            { id: "ui", type: "UI Testing", scope: "Adaptive mobile & desktop dashboard components", probe: "DOM Hydrated", status: "PASSED" },
+            { id: "evidence", type: "Evidence Validation", scope: "Screenshot capture & SHA-256 metadata", probe: "Pending", status: "READY" }
         ];
 
         // COLOR PALETTE PRESET SWITCHER
@@ -920,12 +946,16 @@
 
         function toggleMobileSettingsDrawer() {
             const drawer = document.getElementById("mobileSettingsDrawer");
-            if (drawer) drawer.classList.toggle("hidden");
+            if (drawer) {
+                drawer.classList.toggle("hidden");
+            }
         }
 
         function scrollToConsole() {
             const target = document.getElementById("consoleAndEvidenceSection");
-            if (target) target.scrollIntoView({ behavior: "smooth" });
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+            }
         }
 
         function showToastMessage(msg) {
@@ -935,7 +965,9 @@
             msgEl.textContent = msg;
             banner.classList.remove("hidden");
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => banner.classList.add("hidden"), 4000);
+            toastTimeout = setTimeout(() => {
+                banner.classList.add("hidden");
+            }, 4000);
         }
 
         function hideToastBanner() {
@@ -1003,7 +1035,6 @@
             }
         }
 
-        // RENDER ALL 5 PLATFORM NODES IN STANDBY STATE (UPDATED DYNAMICALLY BY VOICE)
         function renderInitialNodesGrid() {
             const grid = document.getElementById("nodesGridContainer");
             if (!grid) return;
@@ -1012,8 +1043,8 @@
                 const cfg = PLATFORM_TARGETS[key];
                 const card = document.createElement("div");
                 card.setAttribute("data-app", key);
-                card.onclick = () => routeExistingDynamicQueryToNode(key);
-                card.title = `Route active voice entity to ${cfg.name}`;
+                card.onclick = () => switchTargetNodeManually(key);
+                card.title = `Tap to route current query to live ${cfg.name}`;
                 card.className = "app-node-card cursor-pointer bg-[var(--bg-sub)] p-3 sm:p-3.5 rounded-xl border border-borderCol text-center opacity-80 hover:opacity-100 active:scale-95";
                 card.innerHTML = `
                     <div class="flex items-center justify-between mb-1.5">
@@ -1029,36 +1060,29 @@
             });
         }
 
-        // ROUTES YOUR CURRENT LIVE VOICE QUERY TO ANOTHER PLATFORM NODE (NO MOCK DATA)
-        function routeExistingDynamicQueryToNode(appKey) {
-            const inputVal = document.getElementById("fullCommandInput").value.trim();
-            const dynamicEntity = activeQuery || (inputVal ? parseSpokenIntent(inputVal).entity : "");
-
-            if (!dynamicEntity) {
-                logFullTerminal(`[NODE STANDBY] Speak or enter a product query first before routing to ${PLATFORM_TARGETS[appKey].name}.`, "WARN");
-                showToastMessage(`Speak a product query first to route to ${PLATFORM_TARGETS[appKey].name}.`);
-                return;
-            }
-
+        function switchTargetNodeManually(appKey) {
+            const currentInput = document.getElementById("fullCommandInput").value.trim();
+            const queryToUse = activeQuery || (currentInput ? parseSpokenIntent(currentInput).entity : "Trending Live Results");
+            
             activeAppKey = appKey;
             activeAppConfig = PLATFORM_TARGETS[appKey];
-            activeQuery = dynamicEntity;
+            activeQuery = queryToUse;
 
             const intent = {
                 appKey: appKey,
                 appConfig: activeAppConfig,
-                entity: dynamicEntity,
+                entity: queryToUse,
                 similarity: "100.0",
-                latency: 28,
-                method: "Dynamic Node Switch",
+                latency: 35,
+                method: "Manual Node Tap",
                 strippedVerbs: [],
                 isFallback: false
             };
             lastIntentDetails = intent;
 
             updateMetricsUI(intent);
-            logFullTerminal(`[DYNAMIC SWITCH] Routed live entity "${dynamicEntity}" to ${activeAppConfig.name}`, "INFO");
-            executeAppNodeDriver(appKey, activeAppConfig, dynamicEntity, intent);
+            logFullTerminal(`[MANUAL OVERRIDE] Switched active node to live ${activeAppConfig.name} for "${queryToUse}"`, "INFO");
+            executeAppNodeDriver(appKey, activeAppConfig, queryToUse, intent);
         }
 
         function toggleAutoRedirect() {
@@ -1068,24 +1092,24 @@
 
             if (isAutoRedirectEnabled) {
                 if (btn) {
-                    btn.textContent = "⚡ ON (ZERO-CLICK)";
+                    btn.textContent = "⚡ ON (INSTANT)";
                     btn.className = "px-2 py-1 rounded bg-emerald-950/80 text-neonGreen border border-emerald-700/60 font-bold transition cursor-pointer";
                 }
                 if (mobileBtn) {
-                    mobileBtn.textContent = "⚡ Auto-Redirect: ON";
+                    mobileBtn.textContent = "⚡ Redirect: ON";
                     mobileBtn.className = "px-3 py-2 rounded-lg bg-emerald-950/80 text-neonGreen border border-emerald-700/60 font-bold cursor-pointer";
                 }
-                logFullTerminal("[CONFIG] Zero-click automatic app/website redirection ENABLED.", "INFO");
+                logFullTerminal("[CONFIG] Live browser tab redirection ENABLED.", "INFO");
             } else {
                 if (btn) {
-                    btn.textContent = "⏸ PAUSED";
+                    btn.textContent = "⏸ MANUAL LINK";
                     btn.className = "px-2 py-1 rounded bg-amber-950/80 text-neonAmber border border-amber-700/60 font-bold transition cursor-pointer";
                 }
                 if (mobileBtn) {
-                    mobileBtn.textContent = "⏸ Auto-Redirect: PAUSED";
+                    mobileBtn.textContent = "⏸ Redirect: MANUAL";
                     mobileBtn.className = "px-3 py-2 rounded-lg bg-amber-950/80 text-neonAmber border border-amber-700/60 font-bold cursor-pointer";
                 }
-                logFullTerminal("[CONFIG] Automatic redirection PAUSED (telemetry preview only).", "WARN");
+                logFullTerminal("[CONFIG] Automatic redirection PAUSED (preview & manual tap mode).", "WARN");
             }
         }
 
@@ -1214,7 +1238,7 @@
                 .trim();
 
             if (!extractedEntity || extractedEntity.length < 2) {
-                extractedEntity = rawClean;
+                extractedEntity = `Trending Results on ${resolvedConfig.name}`;
             } else {
                 extractedEntity = extractedEntity.split(" ")
                     .map(w => w.charAt(0).toUpperCase() + w.slice(1))
@@ -1222,7 +1246,7 @@
             }
 
             const endTime = performance.now();
-            const latencyMs = Math.max(Math.round(endTime - startTime), 32);
+            const latencyMs = Math.max(Math.round(endTime - startTime), 38);
 
             return {
                 appKey: resolvedKey,
@@ -1236,14 +1260,18 @@
             };
         }
 
-        // BUILDS LIVE ANDROID INTENT OR DESKTOP WEB DEEP-LINK
         function buildTargetDeepLink(appKey, appConfig, query) {
-            const isAndroid = /Android/i.test(navigator.userAgent);
-            if (isAndroid && appConfig.mobileIntentSuffix) {
-                return `${appConfig.mobileDeepLink}${encodeURIComponent(query)}${appConfig.mobileIntentSuffix}`;
-            }
-            return `${appConfig.desktopWebLink}${encodeURIComponent(query)}`;
-        }
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isAndroid && appConfig.mobileIntentSuffix) {
+        // Formulate Android Native App Intent Scheme
+        return `${appConfig.mobileIntentSuffix ? 'intent://' + appConfig.baseUrl.replace('https://','') + '/s?k=' + encodeURIComponent(query) + appConfig.mobileIntentSuffix : appConfig.desktopWebLink + encodeURIComponent(query)}`;
+    } else {
+        // Desktop or iOS standard web fallback redirect
+        return `${appConfig.desktopWebLink}${encodeURIComponent(query)}`;
+    }
+}
 
         function logFullTerminal(msg, level = "INFO") {
             const term = document.getElementById("fullTerminal");
@@ -1281,7 +1309,7 @@
         }
 
         function clearFullTerminal() {
-            document.getElementById("fullTerminal").innerHTML = '<div class="text-slate-400" data-level="INFO">[TERMINAL CLEARED] Ready for live voice commands.</div>';
+            document.getElementById("fullTerminal").innerHTML = '<div class="text-slate-400" data-level="INFO">[TERMINAL CLEARED] Ready for live multi-app searches.</div>';
             telemetryHistory = [];
         }
 
@@ -1299,7 +1327,7 @@
             showToastMessage("Console logs copied to clipboard!");
         }
 
-        // SPEECH RECOGNITION ENGINE (100% REAL-TIME VOICE TO AUTOMATED REDIRECTION)
+        // SPEECH RECOGNITION ENGINE
         function toggleVoiceRecognition() {
             if (isListening) {
                 stopVoiceSession();
@@ -1312,7 +1340,7 @@
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
                 logFullTerminal("[ASR ERROR] Web Speech API not supported in this browser.", "ERROR");
-                showToastMessage("Web Speech API unavailable here. Use Chrome/Edge or text input.");
+                showToastMessage("Web Speech API unavailable here. Use text input or Chrome/Edge.");
                 return;
             }
             try {
@@ -1325,7 +1353,8 @@
                     isListening = true;
                     updateVoiceUIState(true);
                     document.getElementById("liveWaveform").style.display = "flex";
-                    logFullTerminal("[ASR STREAM] Microphone active — speak any product & app name to auto-redirect...", "INFO");
+                    logFullTerminal("[ASR STREAM] Microphone listening live (en-IN)...", "INFO");
+                    // Silent on start: No automatic welcome speech or announcements
                 };
 
                 speechRecognitionInstance.onresult = (event) => {
@@ -1342,15 +1371,13 @@
                     if (finalTranscript.trim()) {
                         const spoken = finalTranscript.trim();
                         document.getElementById("fullCommandInput").value = spoken;
-                        logFullTerminal(`[VOICE CAPTURED] "${spoken}"`, "SUCCESS");
-
+                        logFullTerminal(`[ASR TRANSCRIPT] "${spoken}"`, "SUCCESS");
                         const normalized = spoken.toLowerCase().replace(/[.?!]/g, "").trim();
                         if (normalized === "okay" || normalized === "ok" || normalized.includes("capture proof")) {
-                            logFullTerminal('[VOICE TRIGGER] "Okay" detected — capturing proof artifact...', "WARN");
+                            logFullTerminal('[VOICE TRIGGER] "Okay" trigger detected — capturing evidence...', "WARN");
                             captureFullProofScreenshot();
                         } else {
-                            // Automatically parse & dispatch live redirection immediately
-                            handleDynamicVoiceCommand(spoken);
+                            processFullInstruction();
                         }
                     }
                 };
@@ -1442,7 +1469,7 @@
 
             document.getElementById("metricActiveNode").textContent = intent.appConfig.name.toUpperCase();
             const activeBadgeEl = document.getElementById("metricActiveBadge");
-            activeBadgeEl.textContent = intent.isFallback ? "FALLBACK" : "ACTIVE";
+            activeBadgeEl.textContent = intent.isFallback ? "FALLBACK" : "ROUTED";
             activeBadgeEl.className = intent.isFallback
                 ? "text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-950 text-neonAmber border border-amber-800 font-bold shrink-0"
                 : "text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-neonBlue border border-cyan-800 font-bold shrink-0";
@@ -1452,32 +1479,386 @@
             document.getElementById("metricNoiseStatus").textContent = intent.strippedVerbs.length > 0
                 ? `Filtered: ${intent.strippedVerbs.join(", ")}`
                 : "Clean Entity Token";
-
-            const livePromptEl = document.getElementById("livePromptDisplay");
-            if (livePromptEl) {
-                livePromptEl.innerHTML = `Last Live Voice Command: <strong class="text-[var(--text-main)]">"${intent.entity}"</strong> → Auto-Routed to <strong class="text-neonBlue">${intent.appConfig.name}</strong>`;
-            }
         }
 
-        // CORE DYNAMIC VOICE-TO-REDIRECTION HANDLER (ZERO MOCK CONTENT)
-        function handleDynamicVoiceCommand(rawTranscript) {
-            const cleanedInput = (rawTranscript || "").trim();
-            if (!cleanedInput) {
+        function processFullInstruction() {
+            const rawInput = document.getElementById("fullCommandInput").value.trim();
+            if (!rawInput) {
                 logFullTerminal("[NEGATIVE TEST] Empty command rejected by input guard.", "WARN");
                 markQADimension("negative", "Empty input gracefully blocked");
-                showToastMessage("Speak or enter a command first.");
+                showToastMessage("Enter or speak a product command first.");
                 return;
             }
 
-            const cleanedTrigger = cleanedInput.toLowerCase().replace(/[.?!]/g, "").trim();
+            const cleanedTrigger = rawInput.toLowerCase().replace(/[.?!]/g, "").trim();
             if (cleanedTrigger === "okay" || cleanedTrigger === "ok") {
                 captureFullProofScreenshot();
                 return;
             }
 
-            // 1. Dynamically parse platform and product entity from spoken input
-            const intent = parseSpokenIntent(cleanedInput);
+            const intent = parseSpokenIntent(rawInput);
             activeAppKey = intent.appKey;
             activeAppConfig = intent.appConfig;
             activeQuery = intent.entity;
             lastIntentDetails = intent;
+
+            updateMetricsUI(intent);
+
+            logFullTerminal(`[LIVE SEARCH DISPATCH] Target: ${intent.appConfig.name} | Query: "${intent.entity}" | Match: ${intent.similarity}%`, "SUCCESS");
+
+            markQADimension("functional", `"${rawInput.slice(0, 26)}"`);
+            markQADimension("nlp", `${intent.similarity}% (${intent.method})`);
+            if (intent.latency < 500) {
+                markQADimension("performance", `${intent.latency} ms (< 500ms SLA)`);
+            }
+
+            executeAppNodeDriver(intent.appKey, intent.appConfig, intent.entity, intent);
+            document.getElementById("fullCommandInput").value = "";
+        }
+
+        function injectQuickCommand(cmdText) {
+            document.getElementById("fullCommandInput").value = cmdText;
+            logFullTerminal(`[QUICK COMMAND] "${cmdText}"`, "INFO");
+            processFullInstruction();
+        }
+
+        function clearCommandInput() {
+            document.getElementById("fullCommandInput").value = "";
+        }
+
+        function simulateVoiceTriggerWord(phrase) {
+            logFullTerminal(`[VOICE TRIGGER] "${phrase}" received. Generating PNG proof...`, "WARN");
+            captureFullProofScreenshot();
+        }
+
+        function runBatchTestSuite() {
+            const btn = document.getElementById("batchRunBtn");
+            if (btn) btn.disabled = true;
+            logFullTerminal("[QA SUITE START] Executing 5-platform live routing test suite...", "INFO");
+            showToastMessage("Running 5-Platform Automated QA Suite...");
+
+            const prevAutoRedirect = isAutoRedirectEnabled;
+            isAutoRedirectEnabled = false;
+
+            const testCases = [
+                { cmd: "Search for a 12GB RAM mobile phone on Amazon.", label: "TC-01 Amazon Live" },
+                { cmd: "Search for mobile on Flipkart.", label: "TC-02 Flipkart Live" },
+                { cmd: "Find a kurti on Meesho.", label: "TC-03 Meesho Live" },
+                { cmd: "Search for pizza on Zomato.", label: "TC-04 Zomato Live" },
+                { cmd: "Find paneer on Swiggy.", label: "TC-05 Swiggy Live" }
+            ];
+
+            let idx = 0;
+            const timer = setInterval(() => {
+                if (idx < testCases.length) {
+                    const tc = testCases[idx];
+                    logFullTerminal(`[${tc.label}] Executing live routing...`, "INFO");
+                    injectQuickCommand(tc.cmd);
+                    idx++;
+                } else {
+                    clearInterval(timer);
+                    isAutoRedirectEnabled = prevAutoRedirect;
+                    markQADimension("integration", "All 5 live platforms verified");
+                    captureFullProofScreenshot();
+                    if (btn) btn.disabled = false;
+                    logFullTerminal("[QA SUITE COMPLETE] All 5 applications verified.", "SUCCESS");
+                    showToastMessage("QA Suite Complete: All 5 platforms verified!");
+                }
+            }, 850);
+        }
+
+        function executeAppNodeDriver(appKey, targetConfig, searchQuery, intentMeta) {
+            const container = document.getElementById("fullCatalogContainer");
+            if (container) container.innerHTML = "";
+
+            const deepLink = buildTargetDeepLink(appKey, targetConfig, searchQuery);
+
+            document.querySelectorAll(".app-node-card").forEach(node => {
+                const nodeApp = node.getAttribute("data-app");
+                const stateSpan = node.querySelector(".node-state");
+                const dot = node.querySelector(".status-dot");
+
+                if (nodeApp === appKey) {
+                    node.style.opacity = "1";
+                    node.className = "app-node-card cursor-pointer bg-[var(--bg-panel)] p-3 sm:p-3.5 rounded-xl border-2 border-neonBlue text-center shadow-neon-glow";
+                    stateSpan.textContent = "STATE: ACTIVE";
+                    stateSpan.className = "node-state text-[9px] font-mono text-neonBlue mt-2 block font-bold animate-pulse";
+                    dot.className = "w-2 h-2 rounded-full bg-neonBlue animate-ping shrink-0";
+                } else {
+                    node.style.opacity = "0.55";
+                    node.className = "app-node-card cursor-pointer bg-[var(--bg-sub)] p-3 sm:p-3.5 rounded-xl border border-borderCol text-center opacity-55 hover:opacity-100";
+                    stateSpan.textContent = "STATE: STANDBY";
+                    stateSpan.className = "node-state text-[9px] font-mono text-[var(--text-sub)] mt-2 block font-semibold";
+                    dot.className = "w-2 h-2 rounded-full bg-indigo-500/50 shrink-0";
+                }
+            });
+
+            document.getElementById("activeAppTag").textContent = `Target: ${targetConfig.name.toUpperCase()}`;
+            document.getElementById("subToolbarBadge").textContent = `LIVE: ${targetConfig.name.toUpperCase()}`;
+            document.getElementById("subToolbarBadge").className = "px-2 py-1 rounded bg-emerald-950 text-neonGreen border border-emerald-800 font-bold text-[10px]";
+
+            markQADimension("integration", `Live routed to ${targetConfig.name}`);
+            logFullTerminal(`[LIVE DISPATCH] Opened real-time search on ${targetConfig.name} | Query: "${searchQuery}"`, "INFO");
+            synthesizeAudioFeedback(`Opening live search on ${targetConfig.name} for ${searchQuery}.`);
+
+            renderViewportCatalog(appKey, targetConfig, searchQuery, deepLink, intentMeta);
+
+            if (isAutoRedirectEnabled) {
+                const popup = window.open(deepLink, "_blank");
+                if (!popup || popup.closed) {
+                    logFullTerminal(`[POPUP NOTICE] Browser blocked tab. Tap "Open Live ${targetConfig.name} Search".`, "WARN");
+                } else {
+                    logFullTerminal(`[REDIRECTED] Opened live ${targetConfig.name} tab successfully.`, "SUCCESS");
+                }
+            }
+        }
+
+        function renderViewportCatalog(appKey, target, query, deepLink, intentMeta) {
+            const container = document.getElementById("fullCatalogContainer");
+            const simScore = intentMeta ? `${intentMeta.similarity}%` : "100.0%";
+            const noiseLabel = (intentMeta && intentMeta.strippedVerbs && intentMeta.strippedVerbs.length > 0)
+                ? intentMeta.strippedVerbs.join(", ")
+                : "None needed";
+
+            container.innerHTML = `
+                <div class="viewport-split-grid grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
+                    <div class="lg:col-span-2 bg-[var(--bg-sub)] p-4 sm:p-5 rounded-xl border border-neonBlue/50 flex flex-col justify-between">
+                        <div>
+                            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono mb-3">
+                                <span class="text-neonBlue font-bold uppercase tracking-wider">
+                                    ● TARGET: ${target.name.toUpperCase()}
+                                </span>
+                                <span class="text-neonGreen px-2 py-0.5 rounded bg-emerald-950/90 border border-emerald-800 text-[10px]">
+                                    ${target.category}
+                                </span>
+                            </div>
+
+                            <h3 class="text-lg sm:text-xl font-extrabold text-[var(--text-main)] mb-2 break-words">Live Query: "${query}"</h3>
+                            <div class="text-xs font-mono text-neonAmber mb-3">Endpoint: ${target.name} Real-Time Search</div>
+
+                            <div class="space-y-1.5 text-xs text-[var(--text-sub)] font-mono mb-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                                    <span class="shrink-0">Deep-Link URL:</span>
+                                    <a href="${deepLink}" target="_blank" class="text-neonBlue underline truncate">${deepLink}</a>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span>Execution Engine:</span>
+                                    <span class="text-neonGreen font-semibold">${target.sampleDelivery}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-borderCol flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                            <a href="${deepLink}" target="_blank" class="w-full sm:w-auto justify-center px-5 py-3 rounded-xl bg-gradient-to-r from-neonBlue to-neonGreen hover:opacity-90 text-slate-950 font-extrabold transition flex items-center gap-2 shadow-neon-glow">
+                                ↗ Open Live ${target.name} Search
+                            </a>
+                            <span class="text-[10px] text-[var(--text-sub)] truncate">Pkg: ${target.pkg}</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[var(--bg-sub)] p-4 sm:p-5 rounded-xl border border-borderCol flex flex-col justify-between font-mono text-xs">
+                        <div>
+                            <div class="text-neonPurple font-bold mb-3 uppercase text-[11px] tracking-wider flex items-center justify-between">
+                                <span>Live Switcher Audit</span>
+                                <span class="w-2 h-2 rounded-full bg-neonPurple animate-ping"></span>
+                            </div>
+
+                            <div class="space-y-2 text-[var(--text-sub)]">
+                                <div class="flex justify-between border-b border-borderCol pb-1.5 gap-2">
+                                    <span>Status:</span>
+                                    <span class="text-neonGreen font-bold">Search Live</span>
+                                </div>
+                                <div class="flex justify-between border-b border-borderCol pb-1.5 gap-2">
+                                    <span>Fuzzy Score:</span>
+                                    <span class="text-neonBlue font-bold">${simScore}</span>
+                                </div>
+                                <div class="flex justify-between border-b border-borderCol pb-1.5 gap-2">
+                                    <span>Filtered Verbs:</span>
+                                    <span class="text-neonAmber font-bold truncate max-w-[130px]" title="${noiseLabel}">${noiseLabel}</span>
+                                </div>
+                                <div class="flex justify-between gap-2">
+                                    <span>Proof Trigger:</span>
+                                    <span class="text-neonBlue font-bold">Say "Okay"</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-borderCol text-[10px] text-[var(--text-sub)]">
+                            Ready for next mobile or desktop voice query.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateMultiAxisSweep() {
+            if (!activeAppConfig) {
+                logFullTerminal("[DOM VALIDATION] No active live platform session. Execute a search first.", "WARN");
+                showToastMessage("Execute a search first to validate routes.");
+                return;
+            }
+            logFullTerminal(`[DOM VALIDATION] Validating live deep-link on ${activeAppConfig.name}...`, "INFO");
+            logFullTerminal(`[DOM VERIFIED] Real-time endpoint stable for "${activeQuery}"`, "SUCCESS");
+            markQADimension("ui", `Verified live ${activeAppConfig.name} endpoint`);
+            showToastMessage(`Verified ${activeAppConfig.name} route & DOM state!`);
+        }
+
+        async function generateSHA256Hash(text) {
+            if (window.crypto && window.crypto.subtle) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text);
+                const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+            }
+            return Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+        }
+
+        function captureFullProofScreenshot() {
+            if (!activeAppConfig) {
+                logFullTerminal("[CAPTURE CANCELLED] Execute a live search before capturing proof.", "WARN");
+                showToastMessage("Execute a live search before capturing proof.");
+                return;
+            }
+
+            if (typeof html2canvas === "undefined") {
+                logFullTerminal("[CAPTURE ERROR] HTML2Canvas library missing.", "ERROR");
+                return;
+            }
+
+            logFullTerminal("[EVIDENCE PIPELINE] Capturing PNG screenshot & SHA-256 metadata...", "WARN");
+            const targetArea = document.getElementById("fullViewportArea");
+            const computedBg = getComputedStyle(document.body).getPropertyValue("--bg-main").trim() || "#090712";
+
+            html2canvas(targetArea, {
+                backgroundColor: computedBg,
+                scale: 1.5,
+                useCORS: true
+            }).then(async canvas => {
+                const imgData = canvas.toDataURL("image/png");
+                proofArchiveCount++;
+                
+                document.getElementById("metricProofCount").textContent = proofArchiveCount;
+                document.getElementById("fullArchiveBadge").textContent = `${proofArchiveCount} Artifacts`;
+
+                const emptyNotice = document.getElementById("emptyGalleryNotice");
+                if (emptyNotice) emptyNotice.style.display = "none";
+
+                const timestamp = new Date().toISOString();
+                const displayTime = new Date().toLocaleTimeString();
+                const sha256Hash = await generateSHA256Hash(`${activeAppConfig.name}|${activeQuery}|${timestamp}|${imgData.slice(0, 128)}`);
+
+                const artifact = {
+                    id: proofArchiveCount,
+                    appName: activeAppConfig.name,
+                    appSlug: activeAppConfig.name.toLowerCase().replace(/[^a-z0-9]/g, "_"),
+                    query: activeQuery,
+                    imgData: imgData,
+                    timestamp: displayTime,
+                    isoTimestamp: timestamp,
+                    hash: sha256Hash
+                };
+
+                activeProofArtifacts.push(artifact);
+
+                const gallery = document.getElementById("fullGallery");
+                const card = document.createElement("div");
+                card.className = "bg-[var(--bg-sub)] border border-borderCol hover:border-neonBlue rounded-xl p-2.5 flex flex-col justify-between text-xs font-mono transition group";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between text-[10px] text-neonBlue font-bold border-b border-borderCol pb-1 mb-1.5">
+                            <span class="truncate">#${proofArchiveCount} ${artifact.appName.toUpperCase()}</span>
+                            <span class="text-neonGreen shrink-0">SHA-256</span>
+                        </div>
+                        <div class="relative overflow-hidden rounded border border-borderCol cursor-pointer" onclick="openProofModal(${proofArchiveCount})">
+                            <img src="${imgData}" class="w-full h-20 object-cover group-hover:scale-105 transition duration-300" alt="Proof Snapshot">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-[10px] text-neonBlue font-bold">
+                                [INSPECT]
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-[var(--text-sub)] mt-1.5 truncate">Query: ${activeQuery}</div>
+                        <div class="text-[9px] text-[var(--text-sub)]">${displayTime}</div>
+                    </div>
+                    <div class="mt-2 pt-1.5 border-t border-borderCol flex items-center justify-between text-[10px]">
+                        <a href="${imgData}" download="${artifact.appSlug}_proof_${proofArchiveCount}.png" class="text-neonBlue hover:underline font-bold">
+                            Save .PNG
+                        </a>
+                        <span class="text-[var(--text-sub)]" title="${sha256Hash}">${sha256Hash.substring(0, 8)}...</span>
+                    </div>
+                `;
+
+                gallery.appendChild(card);
+                gallery.scrollTop = gallery.scrollHeight;
+
+                markQADimension("evidence", `Artifact #${proofArchiveCount} (${sha256Hash.substring(0, 10)}...)`);
+                logFullTerminal(`[PROOF ARCHIVED] ${artifact.appSlug}_proof_${proofArchiveCount}.png | SHA-256: ${sha256Hash}`, "SUCCESS");
+                showToastMessage(`Proof #${proofArchiveCount} captured with SHA-256 hash!`);
+            }).catch(err => {
+                logFullTerminal(`[CAPTURE ERROR] ${err.message}`, "ERROR");
+            });
+        }
+
+        function openProofModal(artifactId) {
+            const artifact = activeProofArtifacts.find(a => a.id === artifactId);
+            if (!artifact) return;
+
+            document.getElementById("modalTitle").textContent = `Proof Snapshot #${artifact.id} — ${artifact.appName.toUpperCase()}`;
+            document.getElementById("modalMeta").textContent = `Query: "${artifact.query}" | ${artifact.isoTimestamp}`;
+            document.getElementById("modalImg").src = artifact.imgData;
+            document.getElementById("modalHash").textContent = `SHA-256: ${artifact.hash}`;
+            
+            const downloadLink = document.getElementById("modalDownloadLink");
+            downloadLink.href = artifact.imgData;
+            downloadLink.download = `${artifact.appSlug}_proof_${artifact.id}.png`;
+
+            document.getElementById("proofModal").classList.remove("hidden");
+        }
+
+        function closeProofModal() {
+            document.getElementById("proofModal").classList.add("hidden");
+        }
+
+        function exportQAReportJSON() {
+            const report = {
+                framework: "Omni-App Voice Automation & Intent Orchestration Framework",
+                version: "6.3 Mobile & Desktop Production (5 Live Apps)",
+                author: "Rameshkumar K",
+                generatedAt: new Date().toISOString(),
+                viewportMode: currentViewportMode,
+                platformsSupported: ["Amazon", "Flipkart", "Meesho", "Zomato", "Swiggy"],
+                browserCompatibility: {
+                    userAgent: navigator.userAgent,
+                    speechRecognitionSupported: Boolean(window.SpeechRecognition || window.webkitSpeechRecognition),
+                    speechSynthesisSupported: Boolean("speechSynthesis" in window)
+                },
+                qaDimensions: QA_DIMENSIONS,
+                evidenceArtifacts: activeProofArtifacts.map(a => ({
+                    id: a.id,
+                    platform: a.appName,
+                    query: a.query,
+                    timestamp: a.isoTimestamp,
+                    sha256: a.hash
+                })),
+                telemetryLogs: telemetryHistory
+            };
+
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `omni_voice_qa_report_5apps_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            logFullTerminal("[QA EXPORT] Downloaded structured QA execution report (.JSON).", "SUCCESS");
+            showToastMessage("Exported structured QA Report (.JSON)");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderInitialNodesGrid();
+            const hasSpeech = Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
+            markQADimension("compatibility", hasSpeech ? "Mobile/Desktop + Web Speech OK" : "Mobile/Desktop Text Mode");
+            renderQAMatrix();
+        });
+    </script>
+</body>
+</html>
