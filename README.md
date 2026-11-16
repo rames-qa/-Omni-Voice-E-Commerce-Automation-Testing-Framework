@@ -3,7 +3,7 @@
 ### AI-Powered Voice Search | Multi-Platform Automation | Dynamic Intent Recognition
 
 <p align="center">
-  <a href="https://rames-qa.github.io/Amazon-Automation-Testing-Framework/">
+  <a href="https://rames-qa.github.io/-Omni-Voice-E-Commerce-Automation-Testing-Framework/">
     <strong>🌐 LIVE PROJECT DEMO</strong>
   </a>
 </p>
